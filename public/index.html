@@ -1,89 +1,178 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LeadRadar — B2B High-Budget Client Leads for Agencies</title>
+  <title>LeadRadar — Land $3,000/mo Retainer Clients Before Competitors Even Apply</title>
   <!-- Tailwind CSS for sleek, professional design -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Canvas Confetti for exciting celebration upon subscription -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Plus Jakarta Sans', sans-serif; }
-    .glass-nav { backdrop-filter: blur(12px); background-color: rgba(15, 23, 42, 0.85); }
+    .glass-nav { backdrop-filter: blur(16px); background-color: rgba(10, 15, 30, 0.85); }
+    .gradient-text { background: linear-gradient(135deg, #60a5fa 0%, #34d399 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero-glow { position: absolute; width: 600px; height: 600px; background: radial-gradient(circle, rgba(79, 70, 229, 0.15) 0%, rgba(16, 185, 129, 0.05) 50%, transparent 70%); top: -100px; left: 50%; transform: translateX(-50%); pointer-events: none; }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col">
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col selection:bg-indigo-500 selection:text-white">
 
-  <!-- TOP NAVIGATION BAR -->
-  <header class="sticky top-0 z-50 glass-nav border-b border-slate-800 px-6 py-4">
+  <!-- TOP NAVIGATION STOREFRONT HEADER -->
+  <header class="sticky top-0 z-50 glass-nav border-b border-slate-800/80 px-6 py-4">
     <div class="max-w-7xl mx-auto flex items-center justify-between">
-      <div class="flex items-center space-x-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-emerald-400 flex items-center justify-center font-black text-xl text-slate-950 shadow-lg shadow-indigo-500/20">
+      <!-- Logo -->
+      <a href="#" class="flex items-center space-x-3 group">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 via-purple-500 to-emerald-400 flex items-center justify-center font-black text-xl text-slate-950 shadow-lg shadow-indigo-500/20 group-hover:scale-105 transition transform">
           🎯
         </div>
         <div>
           <span class="font-extrabold text-xl tracking-tight text-white">LeadRadar</span>
-          <span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Micro-SaaS</span>
+          <span class="ml-1.5 text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">B2B SaaS</span>
         </div>
-      </div>
+      </a>
 
-      <!-- Action buttons -->
-      <div class="flex items-center space-x-4">
-        <!-- Pro Mode Switch (Simulates paying customer vs free visitor) -->
-        <button id="toggleProBtn" onclick="toggleProMode()" class="flex items-center space-x-2 text-xs font-semibold px-3 py-2 rounded-lg border border-slate-700 bg-slate-800/80 hover:bg-slate-700 transition">
-          <span id="proModeDot" class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
-          <span id="proModeText">View: Free Visitor Mode</span>
-        </button>
+      <!-- Center Navigation Links -->
+      <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-300">
+        <a href="#how-it-works" class="hover:text-white transition">How It Works</a>
+        <a href="#live-leads" class="hover:text-white transition">Live Leads</a>
+        <a href="#pricing" class="hover:text-white transition">Pricing</a>
+        <a href="#faq" class="hover:text-white transition">FAQ</a>
+      </nav>
 
-        <button onclick="openEmailModal()" class="text-xs font-semibold px-3 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white shadow-md shadow-indigo-600/20 transition flex items-center space-x-1">
-          <span>📬</span>
-          <span>Test Email Digest</span>
-        </button>
+      <!-- Right Action CTA Buttons -->
+      <div class="flex items-center space-x-3">
+        <!-- Pro Status Indicator -->
+        <div id="proIndicator" class="hidden sm:flex items-center space-x-2 text-xs font-semibold px-3 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-slate-300">
+          <span id="statusDot" class="w-2 h-2 rounded-full bg-amber-400"></span>
+          <span id="statusLabel">Free Visitor</span>
+        </div>
 
-        <button onclick="exportToCSV()" class="text-xs font-semibold px-3 py-2 rounded-lg border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10 transition flex items-center space-x-1">
-          <span>📥</span>
-          <span>Export CSV</span>
+        <button onclick="openCheckoutModal('Pro Plan', 49)" class="px-4 py-2 text-xs sm:text-sm font-bold bg-gradient-to-r from-indigo-600 to-emerald-500 hover:from-indigo-500 hover:to-emerald-400 text-white rounded-xl shadow-lg shadow-indigo-600/20 hover:scale-105 transition transform">
+          ⚡ Get Pro ($49/mo)
         </button>
       </div>
     </div>
   </header>
 
-  <!-- HERO & STATS BANNER -->
-  <main class="max-w-7xl mx-auto px-6 py-8 flex-1 w-full">
-    <div class="mb-8">
-      <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-medium mb-3">
-        <span>⚡ Live Scout Feed</span>
+  <!-- HERO SECTION -->
+  <section class="relative pt-16 pb-20 px-6 overflow-hidden text-center">
+    <div class="hero-glow"></div>
+    <div class="max-w-4xl mx-auto relative z-10">
+      <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-semibold mb-6">
+        <span>🔥 15 Fresh High-Budget Hiring Leads Detected Today</span>
         <span>•</span>
-        <span>Updated Every Morning</span>
+        <span class="text-emerald-400">Verified Pipeline</span>
       </div>
-      <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-        Companies actively hiring for services you offer.
+
+      <h1 class="text-4xl sm:text-6xl font-extrabold text-white tracking-tight leading-[1.15]">
+        Land <span class="gradient-text">$3,000/mo Retainers</span> Before Competitors Even Apply.
       </h1>
-      <p class="text-slate-400 mt-2 text-base max-w-3xl">
-        Every job posting is a verified cry for help. Skip gatekeepers, pitch your agency solution before they interview candidates, and close $2k–$5k monthly retainers.
+
+      <p class="text-slate-400 mt-6 text-base sm:text-xl max-w-2xl mx-auto leading-relaxed">
+        When a company posts a job for a marketer or web designer, they have money and an urgent problem. <strong>LeadRadar</strong> delivers their contact info, estimated budget, and 1-click tailored pitches so you close them before they finish interviewing.
       </p>
+
+      <!-- Hero Call to Action Buttons -->
+      <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <button onclick="openCheckoutModal('Pro Plan', 49)" class="w-full sm:w-auto px-8 py-4 text-base font-extrabold bg-gradient-to-r from-indigo-600 via-indigo-500 to-emerald-500 hover:from-indigo-500 hover:to-emerald-400 text-white rounded-2xl shadow-xl shadow-indigo-600/25 hover:scale-105 transition transform flex items-center justify-center space-x-2">
+          <span>🚀 Start 7-Day Trial ($49/mo)</span>
+        </button>
+
+        <a href="#live-leads" class="w-full sm:w-auto px-8 py-4 text-base font-bold bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-200 rounded-2xl transition flex items-center justify-center space-x-2">
+          <span>👀 Preview Live Leads</span>
+        </a>
+      </div>
+
+      <!-- Trust Badges -->
+      <div class="mt-10 pt-8 border-t border-slate-800/80 flex flex-wrap items-center justify-center gap-8 text-xs font-semibold text-slate-400">
+        <div class="flex items-center space-x-1.5">
+          <span class="text-emerald-400">✓</span>
+          <span>Verified LinkedIn & Google Jobs Data</span>
+        </div>
+        <div class="flex items-center space-x-1.5">
+          <span class="text-emerald-400">✓</span>
+          <span>1-Click Custom Sales Pitches</span>
+        </div>
+        <div class="flex items-center space-x-1.5">
+          <span class="text-emerald-400">✓</span>
+          <span>Cancel Anytime with 1 Click</span>
+        </div>
+      </div>
     </div>
+  </section>
 
-    <!-- STATS CARDS -->
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-      <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-sm">
-        <span class="text-slate-400 text-xs font-medium uppercase tracking-wider">Active Verified Leads</span>
-        <div class="text-2xl sm:text-3xl font-extrabold text-white mt-1" id="statTotalLeads">--</div>
-        <span class="text-xs text-emerald-400 font-medium mt-1 inline-block">● Scouting live across 5 job boards</span>
+  <!-- HOW IT WORKS (ELI5 SECTION) -->
+  <section id="how-it-works" class="py-16 px-6 bg-slate-900/40 border-y border-slate-800/80">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center max-w-2xl mx-auto mb-14">
+        <span class="text-xs font-bold uppercase tracking-widest text-indigo-400">The 3-Step Cash Flow Engine</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-2">How LeadRadar Works for Your Agency</h2>
+        <p class="text-slate-400 mt-3 text-sm sm:text-base">No complex cold calling. You are simply offering ready-to-work agency solutions to companies screaming for help.</p>
       </div>
 
-      <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-sm">
-        <span class="text-slate-400 text-xs font-medium uppercase tracking-wider">Estimated Client Pipeline Value</span>
-        <div class="text-2xl sm:text-3xl font-extrabold text-emerald-400 mt-1" id="statPipelineVal">$84,500+</div>
-        <span class="text-xs text-slate-400 font-medium mt-1 inline-block">Based on average agency retainer fees</span>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Step 1 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 relative overflow-hidden group hover:border-slate-700 transition">
+          <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center font-black text-xl mb-6">
+            1
+          </div>
+          <h3 class="text-xl font-bold text-white mb-2">We Scout Companies Hiring</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Our automated scout scans job boards 24/7. When a company posts a $70k/yr job for an SEO specialist, Web Designer, or Media Buyer, we capture it instantly.
+          </p>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 relative overflow-hidden group hover:border-slate-700 transition">
+          <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center font-black text-xl mb-6">
+            2
+          </div>
+          <h3 class="text-xl font-bold text-white mb-2">We Score Deal Size & Angle</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            LeadRadar calculates what the company is willing to pay an agency ($2,500 – $6,000/mo) and automatically crafts a customized, non-spammy sales letter for you.
+          </p>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 relative overflow-hidden group hover:border-slate-700 transition">
+          <div class="w-12 h-12 rounded-2xl bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center justify-center font-black text-xl mb-6">
+            3
+          </div>
+          <h3 class="text-xl font-bold text-white mb-2">You Send Pitch & Win Client</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            You copy the pitch and email the founder. Since an agency starts immediately with zero hiring overhead, you win retainers in days instead of months.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIVE LEADS DASHBOARD (THE PRODUCT SHOWCASE) -->
+  <section id="live-leads" class="py-16 px-6 max-w-7xl mx-auto w-full">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+      <div>
+        <div class="inline-flex items-center space-x-2 text-xs font-semibold text-emerald-400 mb-1">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>Live Database Feed</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Active High-Budget Company Leads</h2>
+        <p class="text-slate-400 text-xs sm:text-sm mt-1">Preview 3 free leads below. Subscribe to unlock all 15+ weekly leads and 1-click tailored pitches.</p>
       </div>
 
-      <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-sm">
-        <span class="text-slate-400 text-xs font-medium uppercase tracking-wider">Your Micro-SaaS Pricing</span>
-        <div class="text-2xl sm:text-3xl font-extrabold text-indigo-400 mt-1">$49 <span class="text-sm font-normal text-slate-400">/ month</span></div>
-        <span class="text-xs text-slate-400 font-medium mt-1 inline-block">10 clients = $490/mo recurring income</span>
+      <!-- Quick Actions -->
+      <div class="flex items-center space-x-3">
+        <button onclick="toggleProMode()" class="px-3.5 py-2 text-xs font-bold rounded-xl border border-slate-700 bg-slate-800/80 hover:bg-slate-700 text-amber-400 transition flex items-center space-x-1.5">
+          <span>⚡</span>
+          <span id="demoSwitchText">Simulate Pro Unlock</span>
+        </button>
+
+        <button onclick="exportToCSV()" class="px-3.5 py-2 text-xs font-bold rounded-xl border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10 transition flex items-center space-x-1.5">
+          <span>📥</span>
+          <span>Export CSV</span>
+        </button>
       </div>
     </div>
 
@@ -115,50 +204,274 @@
       <div class="flex items-center space-x-3">
         <div class="text-2xl">🔒</div>
         <div>
-          <h4 class="text-sm font-bold text-white">Free Preview Mode: 3 Sample Leads Unlocked</h4>
-          <p class="text-xs text-slate-400">The remaining leads are blurred. Switch to "Pro Mode" or subscribe ($49/mo) to unlock full company names, emails, and tailored pitches.</p>
+          <h4 class="text-sm font-bold text-white">Free Visitor Preview: 3 Sample Leads Unlocked</h4>
+          <p class="text-xs text-slate-400">Subscribe for $49/month to unlock all 15+ verified leads, direct founder contacts, and 1-click tailored pitch scripts.</p>
         </div>
       </div>
-      <button onclick="toggleProMode()" class="shrink-0 px-4 py-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold text-xs rounded-xl shadow-md shadow-amber-500/20 transition">
-        ⚡ Unlock All Leads (Simulate Pro)
+      <button onclick="openCheckoutModal('Pro Plan', 49)" class="shrink-0 px-5 py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-extrabold text-xs rounded-xl shadow-md shadow-amber-500/20 transition">
+        ⚡ Subscribe & Unlock All Leads
       </button>
     </div>
 
     <!-- LEADS GRID -->
     <div id="leadsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-      <!-- Lead Cards will be rendered dynamically here -->
+      <!-- Dynamically populated by JS -->
     </div>
-  </main>
+  </section>
 
-  <!-- EMAIL TEST MODAL -->
-  <div id="emailModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl">
-      <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-bold text-white flex items-center space-x-2">
-          <span>📬</span>
-          <span>Test Resend Email Digest</span>
-        </h3>
-        <button onclick="closeEmailModal()" class="text-slate-400 hover:text-white text-lg font-bold">&times;</button>
+  <!-- PRICING SECTION -->
+  <section id="pricing" class="py-20 px-6 bg-slate-900/40 border-t border-slate-800/80">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center max-w-xl mx-auto mb-14">
+        <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">Transparent Return on Investment</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-2">Simple, Predictable Pricing</h2>
+        <p class="text-slate-400 mt-2 text-sm">One client closed covers this subscription for the next 5 years.</p>
       </div>
-      <p class="text-xs text-slate-400 mb-4">
-        This uses your connected <strong>Resend API Key</strong> to dispatch a live weekly lead digest to your inbox.
-      </p>
-      <div class="mb-4">
-        <label class="block text-xs font-semibold text-slate-300 mb-1">Your Email Address</label>
-        <input 
-          type="email" 
-          id="digestEmailInput" 
-          placeholder="yourname@gmail.com" 
-          class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
-        >
-        <p class="text-[11px] text-slate-500 mt-1.5">Note: On the free Resend tier, send to the email address you used to sign up for Resend.</p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+        <!-- PLAN 1: PRO (MOST POPULAR) -->
+        <div class="bg-slate-900 border-2 border-indigo-500/60 rounded-3xl p-8 flex flex-col justify-between relative shadow-2xl shadow-indigo-500/10">
+          <div class="absolute -top-3.5 right-8 bg-gradient-to-r from-indigo-500 to-emerald-400 text-slate-950 font-extrabold text-[10px] uppercase tracking-wider px-3 py-1 rounded-full shadow-md">
+            Most Popular
+          </div>
+          <div>
+            <span class="text-xs font-bold text-indigo-400 uppercase tracking-wider">Solo Agency / Freelancer</span>
+            <h3 class="text-2xl font-black text-white mt-1">LeadRadar Pro</h3>
+            <div class="mt-4 flex items-baseline">
+              <span class="text-4xl sm:text-5xl font-extrabold text-white">$49</span>
+              <span class="ml-2 text-slate-400 text-sm">/ month</span>
+            </div>
+            <p class="text-xs text-slate-400 mt-2">Ideal for solo consultants and boutique agencies wanting a steady pipeline of $2k–$5k retainers.</p>
+
+            <ul class="mt-8 space-y-3.5 text-xs text-slate-300 font-medium">
+              <li class="flex items-center space-x-2.5">
+                <span class="text-emerald-400 text-sm">✓</span>
+                <span><strong>50+ Verified Hiring Leads</strong> every month</span>
+              </li>
+              <li class="flex items-center space-x-2.5">
+                <span class="text-emerald-400 text-sm">✓</span>
+                <span><strong>Estimated Deal Size & Budget Intel</strong></span>
+              </li>
+              <li class="flex items-center space-x-2.5">
+                <span class="text-emerald-400 text-sm">✓</span>
+                <span><strong>1-Click Tailored Pitch Templates</strong></span>
+              </li>
+              <li class="flex items-center space-x-2.5">
+                <span class="text-emerald-400 text-sm">✓</span>
+                <span><strong>Weekly Monday Morning Email Digest</strong></span>
+              </li>
+              <li class="flex items-center space-x-2.5">
+                <span class="text-emerald-400 text-sm">✓</span>
+                <span><strong>1-Click CSV Export</strong> to Excel & CRM</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="mt-8 pt-6 border-t border-slate-800">
+            <button onclick="openCheckoutModal('LeadRadar Pro', 49)" class="w-full py-3.5 px-4 bg-gradient-to-r from-indigo-600 to-emerald-500 hover:from-indigo-500 hover:to-emerald-400 text-white font-extrabold text-sm rounded-xl shadow-lg shadow-indigo-600/25 hover:scale-[1.02] transition transform">
+              Subscribe Now ($49/mo)
+            </button>
+            <p class="text-[11px] text-slate-500 text-center mt-2">7-Day Money-Back Guarantee • Cancel Anytime</p>
+          </div>
+        </div>
+
+        <!-- PLAN 2: AGENCY SCALE -->
+        <div class="bg-slate-900/60 border border-slate-800 rounded-3xl p-8 flex flex-col justify-between">
+          <div>
+            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Growing Teams</span>
+            <h3 class="text-2xl font-black text-white mt-1">Agency Scale</h3>
+            <div class="mt-4 flex items-baseline">
+              <span class="text-4xl sm:text-5xl font-extrabold text-white">$99</span>
+              <span class="ml-2 text-slate-400 text-sm">/ month</span>
+            </div>
+            <p class="text-xs text-slate-400 mt-2">For established agencies with sales reps and account managers conducting outbound outreach.</p>
+
+            <ul class="mt-8 space-y-3.5 text-xs text-slate-300 font-medium">
+              <li class="flex items-center space-x-2.5">
+                <span class="text-emerald-400 text-sm">✓</span>
+                <span><strong>Everything in Pro Tier</strong></span>
+              </li>
+              <li class="flex items-center space-x-2.5">
+                <span class="text-emerald-400 text-sm">✓</span>
+                <span><strong>Up to 5 Team Seats</strong></span>
+              </li>
+              <li class="flex items-center space-x-2.5">
+                <span class="text-emerald-400 text-sm">✓</span>
+                <span><strong>Direct Founder & Decision Maker LinkedIn URLs</strong></span>
+              </li>
+              <li class="flex items-center space-x-2.5">
+                <span class="text-emerald-400 text-sm">✓</span>
+                <span><strong>Custom Location & Keyword Lead Alerts</strong></span>
+              </li>
+              <li class="flex items-center space-x-2.5">
+                <span class="text-emerald-400 text-sm">✓</span>
+                <span><strong>Priority Dedicated Slack Support</strong></span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="mt-8 pt-6 border-t border-slate-800">
+            <button onclick="openCheckoutModal('Agency Scale', 99)" class="w-full py-3.5 px-4 bg-slate-800 hover:bg-slate-700 text-white font-extrabold text-sm rounded-xl border border-slate-700 transition">
+              Subscribe to Scale ($99/mo)
+            </button>
+            <p class="text-[11px] text-slate-500 text-center mt-2">7-Day Money-Back Guarantee • Cancel Anytime</p>
+          </div>
+        </div>
       </div>
-      <div id="digestStatus" class="text-xs mb-3 hidden"></div>
-      <div class="flex items-center justify-end space-x-2">
-        <button onclick="closeEmailModal()" class="px-3.5 py-2 text-xs font-semibold text-slate-400 hover:text-white transition">Cancel</button>
-        <button id="sendDigestBtn" onclick="sendTestDigest()" class="px-4 py-2 text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl shadow-md transition">
-          Send Live Test
-        </button>
+    </div>
+  </section>
+
+  <!-- FREQUENTLY ASKED QUESTIONS (FAQ) -->
+  <section id="faq" class="py-16 px-6 max-w-4xl mx-auto w-full">
+    <div class="text-center mb-12">
+      <span class="text-xs font-bold uppercase tracking-widest text-indigo-400">Got Questions?</span>
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">Frequently Asked Questions</h2>
+    </div>
+
+    <div class="space-y-4">
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5">
+        <h4 class="text-base font-bold text-white">Why is pitching hiring companies better than normal cold outreach?</h4>
+        <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+          When you cold email random businesses, 95% of them don't need your service right now. But when a company posts a public job ad, they are openly declaring that they have budget and an urgent need. Pitching an outsourced agency solution saves them $40k+ in payroll taxes and weeks of interview time!
+        </p>
+      </div>
+
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5">
+        <h4 class="text-base font-bold text-white">How often is the lead database updated?</h4>
+        <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+          Our automated scout scans verified job boards every morning. New leads are added dynamically, and Pro subscribers receive a curated digest every Monday at 8:00 AM.
+        </p>
+      </div>
+
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5">
+        <h4 class="text-base font-bold text-white">Can I cancel my subscription anytime?</h4>
+        <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+          Yes, 100%. There are zero contracts or cancellation fees. You can cancel with a single click at any time from your account settings.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="mt-auto border-t border-slate-800 py-8 px-6 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center space-x-2">
+        <span class="font-bold text-slate-300">LeadRadar</span>
+        <span>• B2B Client Acquisition Engine</span>
+      </div>
+      <div>
+        <span>Built with 💚 • 24/7 Automated Infrastructure</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================================= -->
+  <!-- CHECKOUT MODAL (STRIPE-STYLED PAYMENT SYSTEM) -->
+  <!-- ========================================================================= -->
+  <div id="checkoutModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-7 shadow-2xl relative overflow-hidden">
+      <!-- Close button -->
+      <button onclick="closeCheckoutModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white text-xl font-bold">&times;</button>
+
+      <!-- Step 1: Payment Form View -->
+      <div id="checkoutFormView">
+        <div class="flex items-center space-x-2.5 mb-5">
+          <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center font-bold text-sm text-white">
+            💳
+          </div>
+          <div>
+            <h3 class="text-lg font-bold text-white" id="checkoutPlanTitle">LeadRadar Pro Checkout</h3>
+            <p class="text-xs text-slate-400" id="checkoutPlanSubtitle">$49.00 / month • Cancel anytime</p>
+          </div>
+        </div>
+
+        <form id="paymentForm" onsubmit="handlePaymentSubmit(event)">
+          <!-- Name -->
+          <div class="mb-3.5">
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Full Name</label>
+            <input 
+              type="text" 
+              id="custName" 
+              required
+              placeholder="Alex Johnson" 
+              class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition"
+            >
+          </div>
+
+          <!-- Email -->
+          <div class="mb-3.5">
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Email Address (for receipts & weekly leads)</label>
+            <input 
+              type="email" 
+              id="custEmail" 
+              required
+              placeholder="alex@mygrowthagency.com" 
+              class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition"
+            >
+          </div>
+
+          <!-- Credit Card Input Box -->
+          <div class="mb-4">
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Card Information</label>
+            <div class="bg-slate-950 border border-slate-800 rounded-xl p-2.5 focus-within:border-indigo-500 transition">
+              <input 
+                type="text" 
+                id="cardNumber" 
+                maxlength="19" 
+                placeholder="4242 •••• •••• 4242" 
+                required
+                class="w-full bg-transparent text-xs text-white placeholder-slate-500 focus:outline-none mb-2"
+              >
+              <div class="flex items-center gap-2 pt-2 border-t border-slate-800/80">
+                <input 
+                  type="text" 
+                  id="cardExp" 
+                  maxlength="5" 
+                  placeholder="MM/YY" 
+                  required
+                  class="w-1/2 bg-transparent text-xs text-white placeholder-slate-500 focus:outline-none"
+                >
+                <input 
+                  type="text" 
+                  id="cardCvc" 
+                  maxlength="4" 
+                  placeholder="CVC" 
+                  required
+                  class="w-1/2 bg-transparent text-xs text-white placeholder-slate-500 focus:outline-none"
+                >
+              </div>
+            </div>
+            <div class="flex items-center justify-between text-[11px] text-slate-500 mt-1.5 px-1">
+              <span>🔒 256-Bit Bank-Grade Encryption</span>
+              <span>Test Card: 4242...</span>
+            </div>
+          </div>
+
+          <!-- Checkout Button -->
+          <button 
+            type="submit" 
+            id="paySubmitBtn" 
+            class="w-full py-3.5 px-4 bg-gradient-to-r from-indigo-600 via-indigo-500 to-emerald-500 hover:from-indigo-500 hover:to-emerald-400 text-white font-extrabold text-sm rounded-xl shadow-lg shadow-indigo-600/25 hover:scale-[1.01] transition transform flex items-center justify-center space-x-2"
+          >
+            <span id="btnText">Complete Payment & Unlock Leads</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- Step 2: Payment Success View (Confetti celebration) -->
+      <div id="checkoutSuccessView" class="hidden text-center py-6">
+        <div class="w-16 h-16 rounded-2xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center text-3xl mx-auto mb-4">
+          ✓
+        </div>
+        <h3 class="text-xl font-extrabold text-white">Payment Successful!</h3>
+        <p class="text-xs text-slate-300 mt-2 max-w-xs mx-auto leading-relaxed">
+          Welcome to <strong>LeadRadar Pro</strong>! All company contact details and 1-click tailored pitches are now unlocked for your account.
+        </p>
+        <div class="mt-6">
+          <button onclick="closeCheckoutModal();" class="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl shadow-md transition">
+            🎯 View My Unlocked Leads
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -189,20 +502,20 @@
     </div>
   </div>
 
-  <!-- JAVASCRIPT CONTROLLER -->
+  <!-- JAVASCRIPT APP CONTROLLER -->
   <script>
     let currentCategory = 'All';
     let searchQuery = '';
     let leadsData = [];
+    let isProActive = false;
 
     async function loadStats() {
       try {
         const res = await fetch('/api/stats');
         const data = await res.json();
         if (data.success) {
-          document.getElementById('statTotalLeads').innerText = data.totalLeads;
-          document.getElementById('statPipelineVal').innerText = data.estimatedPipelineValue;
-          updateProModeUI(data.isSubscriberMode);
+          isProActive = data.isSubscriberMode;
+          updateProModeUI(isProActive);
         }
       } catch (e) {
         console.error('Stats error:', e);
@@ -216,7 +529,9 @@
         const data = await res.json();
         if (data.success) {
           leadsData = data.leads;
+          isProActive = data.isSubscriberMode;
           renderLeads(data.leads);
+          updateProModeUI(isProActive);
         }
       } catch (e) {
         console.error('Leads error:', e);
@@ -228,7 +543,7 @@
       if (!leads.length) {
         container.innerHTML = `
           <div class="col-span-full py-16 text-center text-slate-500">
-            <p class="text-2xl mb-2">🔍</p>
+            <p class="text-3xl mb-2">🔍</p>
             <p class="text-sm font-semibold">No leads found matching your search.</p>
           </div>
         `;
@@ -258,7 +573,7 @@
               <h3 class="text-base font-bold text-slate-100 group-hover:text-indigo-400 transition mt-1">${l.title}</h3>
               
               <div class="mt-3 flex items-center space-x-2 text-xs">
-                <span class="text-slate-400">Budget:</span>
+                <span class="text-slate-400">Salary Budget:</span>
                 <span class="font-semibold text-slate-200">${l.salary}</span>
               </div>
 
@@ -275,15 +590,15 @@
 
             <div class="mt-5 pt-3 border-t border-slate-800/60 flex items-center justify-between">
               ${isLocked ? `
-                <button onclick="toggleProMode()" class="w-full py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-amber-400 text-xs font-bold rounded-xl transition flex items-center justify-center space-x-1">
-                  <span>🔒 Subscribe to Unlock Contact</span>
+                <button onclick="openCheckoutModal('LeadRadar Pro', 49)" class="w-full py-2 bg-gradient-to-r from-amber-500/10 to-indigo-500/10 hover:from-amber-500/20 hover:to-indigo-500/20 border border-amber-500/30 text-amber-300 text-xs font-bold rounded-xl transition flex items-center justify-center space-x-1.5">
+                  <span>🔒 Unlock Contact & Pitch ($49/mo)</span>
                 </button>
               ` : `
                 <button onclick="openPitchModal('${l.id}')" class="text-xs font-bold text-indigo-400 hover:text-indigo-300 flex items-center space-x-1 transition">
                   <span>⚡ 1-Click Pitch</span>
                 </button>
                 <a href="${l.companyUrl}" target="_blank" class="text-xs text-slate-400 hover:text-slate-200 flex items-center space-x-1 transition">
-                  <span>View Post ↗</span>
+                  <span>View Job Post ↗</span>
                 </a>
               `}
             </div>
@@ -313,7 +628,8 @@
       try {
         const res = await fetch('/api/toggle-subscriber-mode', { method: 'POST' });
         const data = await res.json();
-        updateProModeUI(data.isSubscriberMode);
+        isProActive = data.isSubscriberMode;
+        updateProModeUI(isProActive);
         loadLeads();
       } catch (e) {
         console.error('Toggle error:', e);
@@ -321,21 +637,84 @@
     }
 
     function updateProModeUI(isPro) {
-      const btnText = document.getElementById('proModeText');
-      const dot = document.getElementById('proModeDot');
       const banner = document.getElementById('paywallBanner');
+      const dot = document.getElementById('statusDot');
+      const label = document.getElementById('statusLabel');
+      const demoSwitch = document.getElementById('demoSwitchText');
 
       if (isPro) {
-        btnText.innerText = 'View: Pro Subscriber ($49/mo)';
-        dot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-sm shadow-emerald-400';
-        banner.classList.add('hidden');
+        if (banner) banner.classList.add('hidden');
+        if (dot) dot.className = 'w-2 h-2 rounded-full bg-emerald-400 shadow-sm shadow-emerald-400';
+        if (label) label.innerText = 'Pro Active ($49/mo)';
+        if (demoSwitch) demoSwitch.innerText = 'Reset to Free Mode';
       } else {
-        btnText.innerText = 'View: Free Visitor Mode';
-        dot.className = 'w-2.5 h-2.5 rounded-full bg-amber-400';
-        banner.classList.remove('hidden');
+        if (banner) banner.classList.remove('hidden');
+        if (dot) dot.className = 'w-2 h-2 rounded-full bg-amber-400';
+        if (label) label.innerText = 'Free Visitor';
+        if (demoSwitch) demoSwitch.innerText = 'Simulate Pro Unlock';
       }
     }
 
+    // CHECKOUT MODAL LOGIC
+    function openCheckoutModal(planName, price) {
+      document.getElementById('checkoutPlanTitle').innerText = `${planName} Checkout`;
+      document.getElementById('checkoutPlanSubtitle').innerText = `$${price}.00 / month • Cancel anytime`;
+      document.getElementById('checkoutFormView').classList.remove('hidden');
+      document.getElementById('checkoutSuccessView').classList.add('hidden');
+      document.getElementById('checkoutModal').classList.remove('hidden');
+      document.getElementById('checkoutModal').classList.add('flex');
+    }
+
+    function closeCheckoutModal() {
+      document.getElementById('checkoutModal').classList.add('hidden');
+      document.getElementById('checkoutModal').classList.remove('flex');
+    }
+
+    async function handlePaymentSubmit(e) {
+      e.preventDefault();
+      const btn = document.getElementById('paySubmitBtn');
+      const btnText = document.getElementById('btnText');
+      const name = document.getElementById('custName').value;
+      const email = document.getElementById('custEmail').value;
+
+      btn.disabled = true;
+      btnText.innerText = 'Processing Payment Securely...';
+
+      try {
+        const res = await fetch('/api/checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, plan: 'LeadRadar Pro ($49/mo)' })
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          // Fire celebratory confetti!
+          if (typeof confetti === 'function') {
+            confetti({
+              particleCount: 100,
+              spread: 70,
+              origin: { y: 0.6 }
+            });
+          }
+
+          document.getElementById('checkoutFormView').classList.add('hidden');
+          document.getElementById('checkoutSuccessView').classList.remove('hidden');
+          isProActive = true;
+          updateProModeUI(true);
+          loadLeads();
+        } else {
+          alert('Notice: ' + (data.message || 'Payment could not be processed.'));
+        }
+      } catch (err) {
+        alert('Payment error: ' + err.message);
+      } finally {
+        btn.disabled = false;
+        btnText.innerText = 'Complete Payment & Unlock Leads';
+      }
+    }
+
+    // PITCH MODAL
     function openPitchModal(leadId) {
       const lead = leadsData.find(l => l.id === leadId);
       if (!lead) return;
@@ -359,58 +738,7 @@
       setTimeout(() => msg.classList.add('hidden'), 3000);
     }
 
-    function openEmailModal() {
-      document.getElementById('digestStatus').classList.add('hidden');
-      document.getElementById('emailModal').classList.remove('hidden');
-      document.getElementById('emailModal').classList.add('flex');
-    }
-
-    function closeEmailModal() {
-      document.getElementById('emailModal').classList.add('hidden');
-      document.getElementById('emailModal').classList.remove('flex');
-    }
-
-    async function sendTestDigest() {
-      const email = document.getElementById('digestEmailInput').value;
-      const statusDiv = document.getElementById('digestStatus');
-      const btn = document.getElementById('sendDigestBtn');
-
-      if (!email) {
-        statusDiv.className = 'text-xs mb-3 text-rose-400 font-semibold';
-        statusDiv.innerText = 'Please enter an email address.';
-        statusDiv.classList.remove('hidden');
-        return;
-      }
-
-      btn.disabled = true;
-      btn.innerText = 'Sending...';
-      statusDiv.className = 'text-xs mb-3 text-indigo-400';
-      statusDiv.innerText = '📬 Digital Postman is sending your digest...';
-      statusDiv.classList.remove('hidden');
-
-      try {
-        const res = await fetch('/api/send-digest', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email })
-        });
-        const data = await res.json();
-        if (data.success) {
-          statusDiv.className = 'text-xs mb-3 text-emerald-400 font-semibold';
-          statusDiv.innerText = '✅ Test digest delivered! Check your inbox.';
-        } else {
-          statusDiv.className = 'text-xs mb-3 text-amber-400 font-semibold';
-          statusDiv.innerText = 'Notice: ' + (data.error || data.message);
-        }
-      } catch (err) {
-        statusDiv.className = 'text-xs mb-3 text-rose-400 font-semibold';
-        statusDiv.innerText = 'Error sending email: ' + err.message;
-      } finally {
-        btn.disabled = false;
-        btn.innerText = 'Send Live Test';
-      }
-    }
-
+    // CSV EXPORT
     function exportToCSV() {
       if (!leadsData.length) return;
       const headers = ['Company', 'Job Title', 'Category', 'Location', 'Salary', 'Agency Value', 'URL'];
@@ -428,7 +756,7 @@
       const encodedUri = encodeURI(csvContent);
       const link = document.createElement('a');
       link.setAttribute('href', encodedUri);
-      link.setAttribute('download', `LeadRadar_Agency_Leads_${new Date().toISOString().slice(0,10)}.csv`);
+      link.setAttribute('download', `LeadRadar_Leads_${new Date().toISOString().slice(0,10)}.csv`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);

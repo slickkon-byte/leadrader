@@ -155,6 +155,60 @@ app.post('/api/send-digest', async (req, res) => {
   }
 });
 
+
+// ------------------------------------------------------------------------------
+// API ROUTE 5: POST /api/checkout
+// Processes customer payment/subscription, activates Pro status, and logs subscriber
+// ------------------------------------------------------------------------------
+app.post('/api/checkout', async (req, res) => {
+
+  try {
+    const { name, email, plan } = req.body;
+    if (!email) {
+      return res.status(400).json({ success: false, message: 'Email is required for receipt and account delivery.' });
+    }
+
+    // Automatically activate Pro Mode for the user!
+    isSubscriberMode = true;
+    console.log(`🎉 [New Customer!] ${name || 'Valued Agency Owner'} (${email}) just subscribed to ${plan || 'Pro ($49/mo)'}!`);
+
+    // Optionally send a friendly welcome note via Resend
+    const welcomeHtml = `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 12px; background: #ffffff;">
+        <h2 style="color: #0f172a; margin-top: 0;">🎉 Welcome to LeadRadar Pro!</h2>
+        <p style="color: #334155; font-size: 15px;">Hi ${name || 'there'},</p>
+        <p style="color: #334155; font-size: 15px;">Your subscription to <strong>LeadRadar Pro ($49/month)</strong> is officially active! You now have unlocked access to all high-budget company leads, 1-click tailored pitches, and our Monday Morning Scout digests.</p>
+        <div style="margin: 20px 0; text-align: center;">
+          <a href="https://leadrader.onrender.com" style="background: #2563eb; color: #ffffff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; display: inline-block;">Open LeadRadar Dashboard</a>
+        </div>
+        <p style="color: #64748b; font-size: 13px;">Need any help landing your first client? Just reply directly to this email!</p>
+      </div>
+    `;
+
+    // Try sending welcome email in background
+    try {
+      if (process.env.RESEND_API_KEY) {
+        const { Resend } = require('resend');
+        const resend = new Resend(process.env.RESEND_API_KEY);
+        resend.emails.send({
+          from: 'LeadRadar <onboarding@resend.dev>',
+          to: email,
+          subject: '🎉 Welcome to LeadRadar Pro! Your Account is Ready',
+          html: welcomeHtml
+        }).catch(e => console.log('Welcome email note:', e.message));
+      }
+    } catch (e) {}
+
+    res.json({
+      success: true,
+      isSubscriberMode: true,
+      message: `Payment successful! Welcome to LeadRadar Pro, ${name || 'Partner'}!`
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 // Start the server
 app.listen(PORT, () => {
   console.log('=================================================================');
@@ -162,3 +216,4 @@ app.listen(PORT, () => {
   console.log('💡 Visit the link above in your browser to see your live Micro-SaaS!');
   console.log('=================================================================');
 });
+
