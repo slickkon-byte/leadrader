@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LeadRadar — B2B High-Budget Client Leads for Agencies</title>
+  <!-- Tailwind CSS for sleek, professional design -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .glass-nav { backdrop-filter: blur(12px); background-color: rgba(15, 23, 42, 0.85); }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col">
+
+  <!-- TOP NAVIGATION BAR -->
+  <header class="sticky top-0 z-50 glass-nav border-b border-slate-800 px-6 py-4">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-emerald-400 flex items-center justify-center font-black text-xl text-slate-950 shadow-lg shadow-indigo-500/20">
+          🎯
+        </div>
+        <div>
+          <span class="font-extrabold text-xl tracking-tight text-white">LeadRadar</span>
+          <span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Micro-SaaS</span>
+        </div>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="flex items-center space-x-4">
+        <!-- Pro Mode Switch (Simulates paying customer vs free visitor) -->
+        <button id="toggleProBtn" onclick="toggleProMode()" class="flex items-center space-x-2 text-xs font-semibold px-3 py-2 rounded-lg border border-slate-700 bg-slate-800/80 hover:bg-slate-700 transition">
+          <span id="proModeDot" class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+          <span id="proModeText">View: Free Visitor Mode</span>
+        </button>
+
+        <button onclick="openEmailModal()" class="text-xs font-semibold px-3 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white shadow-md shadow-indigo-600/20 transition flex items-center space-x-1">
+          <span>📬</span>
+          <span>Test Email Digest</span>
+        </button>
+
+        <button onclick="exportToCSV()" class="text-xs font-semibold px-3 py-2 rounded-lg border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10 transition flex items-center space-x-1">
+          <span>📥</span>
+          <span>Export CSV</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO & STATS BANNER -->
+  <main class="max-w-7xl mx-auto px-6 py-8 flex-1 w-full">
+    <div class="mb-8">
+      <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-medium mb-3">
+        <span>⚡ Live Scout Feed</span>
+        <span>•</span>
+        <span>Updated Every Morning</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+        Companies actively hiring for services you offer.
+      </h1>
+      <p class="text-slate-400 mt-2 text-base max-w-3xl">
+        Every job posting is a verified cry for help. Skip gatekeepers, pitch your agency solution before they interview candidates, and close $2k–$5k monthly retainers.
+      </p>
+    </div>
+
+    <!-- STATS CARDS -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+      <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-sm">
+        <span class="text-slate-400 text-xs font-medium uppercase tracking-wider">Active Verified Leads</span>
+        <div class="text-2xl sm:text-3xl font-extrabold text-white mt-1" id="statTotalLeads">--</div>
+        <span class="text-xs text-emerald-400 font-medium mt-1 inline-block">● Scouting live across 5 job boards</span>
+      </div>
+
+      <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-sm">
+        <span class="text-slate-400 text-xs font-medium uppercase tracking-wider">Estimated Client Pipeline Value</span>
+        <div class="text-2xl sm:text-3xl font-extrabold text-emerald-400 mt-1" id="statPipelineVal">$84,500+</div>
+        <span class="text-xs text-slate-400 font-medium mt-1 inline-block">Based on average agency retainer fees</span>
+      </div>
+
+      <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 shadow-sm">
+        <span class="text-slate-400 text-xs font-medium uppercase tracking-wider">Your Micro-SaaS Pricing</span>
+        <div class="text-2xl sm:text-3xl font-extrabold text-indigo-400 mt-1">$49 <span class="text-sm font-normal text-slate-400">/ month</span></div>
+        <span class="text-xs text-slate-400 font-medium mt-1 inline-block">10 clients = $490/mo recurring income</span>
+      </div>
+    </div>
+
+    <!-- FILTER & SEARCH BAR -->
+    <div class="flex flex-col md:flex-row gap-4 items-center justify-between mb-6 pb-6 border-b border-slate-800">
+      <!-- Category Pills -->
+      <div class="flex flex-wrap gap-2" id="categoryContainer">
+        <button onclick="setCategory('All')" class="cat-pill active px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-indigo-600 text-white transition">All Categories</button>
+        <button onclick="setCategory('SEO')" class="cat-pill px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-900 text-slate-400 border border-slate-800 hover:border-slate-700 transition">SEO & Growth</button>
+        <button onclick="setCategory('Design')" class="cat-pill px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-900 text-slate-400 border border-slate-800 hover:border-slate-700 transition">Web Design</button>
+        <button onclick="setCategory('Ads')" class="cat-pill px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-900 text-slate-400 border border-slate-800 hover:border-slate-700 transition">Paid Ads</button>
+        <button onclick="setCategory('Copywriting')" class="cat-pill px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-900 text-slate-400 border border-slate-800 hover:border-slate-700 transition">Copywriting</button>
+      </div>
+
+      <!-- Search Input -->
+      <div class="w-full md:w-72">
+        <input 
+          type="text" 
+          id="searchInput" 
+          oninput="handleSearch()" 
+          placeholder="Search by company or role..."
+          class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition"
+        >
+      </div>
+    </div>
+
+    <!-- PAYWALL BANNER (Visible in Free Mode) -->
+    <div id="paywallBanner" class="mb-6 p-4 rounded-2xl bg-gradient-to-r from-amber-500/10 via-indigo-500/10 to-slate-900 border border-amber-500/20 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center space-x-3">
+        <div class="text-2xl">🔒</div>
+        <div>
+          <h4 class="text-sm font-bold text-white">Free Preview Mode: 3 Sample Leads Unlocked</h4>
+          <p class="text-xs text-slate-400">The remaining leads are blurred. Switch to "Pro Mode" or subscribe ($49/mo) to unlock full company names, emails, and tailored pitches.</p>
+        </div>
+      </div>
+      <button onclick="toggleProMode()" class="shrink-0 px-4 py-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold text-xs rounded-xl shadow-md shadow-amber-500/20 transition">
+        ⚡ Unlock All Leads (Simulate Pro)
+      </button>
+    </div>
+
+    <!-- LEADS GRID -->
+    <div id="leadsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <!-- Lead Cards will be rendered dynamically here -->
+    </div>
+  </main>
+
+  <!-- EMAIL TEST MODAL -->
+  <div id="emailModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-bold text-white flex items-center space-x-2">
+          <span>📬</span>
+          <span>Test Resend Email Digest</span>
+        </h3>
+        <button onclick="closeEmailModal()" class="text-slate-400 hover:text-white text-lg font-bold">&times;</button>
+      </div>
+      <p class="text-xs text-slate-400 mb-4">
+        This uses your connected <strong>Resend API Key</strong> to dispatch a live weekly lead digest to your inbox.
+      </p>
+      <div class="mb-4">
+        <label class="block text-xs font-semibold text-slate-300 mb-1">Your Email Address</label>
+        <input 
+          type="email" 
+          id="digestEmailInput" 
+          placeholder="yourname@gmail.com" 
+          class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+        >
+        <p class="text-[11px] text-slate-500 mt-1.5">Note: On the free Resend tier, send to the email address you used to sign up for Resend.</p>
+      </div>
+      <div id="digestStatus" class="text-xs mb-3 hidden"></div>
+      <div class="flex items-center justify-end space-x-2">
+        <button onclick="closeEmailModal()" class="px-3.5 py-2 text-xs font-semibold text-slate-400 hover:text-white transition">Cancel</button>
+        <button id="sendDigestBtn" onclick="sendTestDigest()" class="px-4 py-2 text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl shadow-md transition">
+          Send Live Test
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PITCH PREVIEW MODAL -->
+  <div id="pitchModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 shadow-2xl">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="text-base font-bold text-white flex items-center space-x-2">
+          <span>⚡</span>
+          <span id="pitchModalTitle">Tailored Agency Pitch</span>
+        </h3>
+        <button onclick="closePitchModal()" class="text-slate-400 hover:text-white text-lg font-bold">&times;</button>
+      </div>
+      <p class="text-xs text-slate-400 mb-3">
+        Copy this tailored pitch and send it directly to their founder or hiring manager:
+      </p>
+      <textarea id="pitchTextarea" rows="8" readonly class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-300 font-mono focus:outline-none"></textarea>
+      <div class="flex items-center justify-between mt-4">
+        <span id="copyConfirmMsg" class="text-xs text-emerald-400 font-semibold hidden">✅ Copied to clipboard!</span>
+        <div class="flex items-center space-x-2 ml-auto">
+          <button onclick="closePitchModal()" class="px-3 py-1.5 text-xs text-slate-400 hover:text-white transition">Close</button>
+          <button onclick="copyPitchToClipboard()" class="px-4 py-2 text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl shadow-md transition">
+            📋 Copy Pitch
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT CONTROLLER -->
+  <script>
+    let currentCategory = 'All';
+    let searchQuery = '';
+    let leadsData = [];
+
+    async function loadStats() {
+      try {
+        const res = await fetch('/api/stats');
+        const data = await res.json();
+        if (data.success) {
+          document.getElementById('statTotalLeads').innerText = data.totalLeads;
+          document.getElementById('statPipelineVal').innerText = data.estimatedPipelineValue;
+          updateProModeUI(data.isSubscriberMode);
+        }
+      } catch (e) {
+        console.error('Stats error:', e);
+      }
+    }
+
+    async function loadLeads() {
+      try {
+        let url = `/api/leads?category=${encodeURIComponent(currentCategory)}&search=${encodeURIComponent(searchQuery)}`;
+        const res = await fetch(url);
+        const data = await res.json();
+        if (data.success) {
+          leadsData = data.leads;
+          renderLeads(data.leads);
+        }
+      } catch (e) {
+        console.error('Leads error:', e);
+      }
+    }
+
+    function renderLeads(leads) {
+      const container = document.getElementById('leadsGrid');
+      if (!leads.length) {
+        container.innerHTML = `
+          <div class="col-span-full py-16 text-center text-slate-500">
+            <p class="text-2xl mb-2">🔍</p>
+            <p class="text-sm font-semibold">No leads found matching your search.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = leads.map(l => {
+        const isLocked = l.isLocked;
+        return `
+          <div class="bg-slate-900/70 border ${isLocked ? 'border-slate-800/40 opacity-75' : 'border-slate-800'} hover:border-slate-700 rounded-2xl p-5 flex flex-col justify-between transition group shadow-sm">
+            <div>
+              <div class="flex items-start justify-between mb-3">
+                <div class="flex items-center space-x-3">
+                  <div class="w-10 h-10 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-sm font-bold text-slate-300">
+                    ${isLocked ? '🔒' : (l.companyName[0] || '🏢')}
+                  </div>
+                  <div>
+                    <h4 class="text-sm font-bold text-white ${isLocked ? 'blur-[4px] select-none' : ''}">${l.companyName}</h4>
+                    <span class="text-[11px] text-slate-400">${l.location} • ${l.postedDate}</span>
+                  </div>
+                </div>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-md bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                  ${l.opportunity.category}
+                </span>
+              </div>
+
+              <h3 class="text-base font-bold text-slate-100 group-hover:text-indigo-400 transition mt-1">${l.title}</h3>
+              
+              <div class="mt-3 flex items-center space-x-2 text-xs">
+                <span class="text-slate-400">Budget:</span>
+                <span class="font-semibold text-slate-200">${l.salary}</span>
+              </div>
+
+              <div class="mt-2 p-2.5 rounded-xl bg-slate-950/60 border border-slate-800/80">
+                <div class="text-[11px] font-semibold text-emerald-400 flex items-center justify-between">
+                  <span>💰 Agency Retainer Value:</span>
+                  <span>${l.opportunity.agencyValue}</span>
+                </div>
+                <p class="text-[11px] text-slate-400 mt-1 leading-relaxed ${isLocked ? 'blur-[3px] select-none' : ''}">
+                  🎯 <em>Why Pitch:</em> ${l.opportunity.whyPitch}
+                </p>
+              </div>
+            </div>
+
+            <div class="mt-5 pt-3 border-t border-slate-800/60 flex items-center justify-between">
+              ${isLocked ? `
+                <button onclick="toggleProMode()" class="w-full py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-amber-400 text-xs font-bold rounded-xl transition flex items-center justify-center space-x-1">
+                  <span>🔒 Subscribe to Unlock Contact</span>
+                </button>
+              ` : `
+                <button onclick="openPitchModal('${l.id}')" class="text-xs font-bold text-indigo-400 hover:text-indigo-300 flex items-center space-x-1 transition">
+                  <span>⚡ 1-Click Pitch</span>
+                </button>
+                <a href="${l.companyUrl}" target="_blank" class="text-xs text-slate-400 hover:text-slate-200 flex items-center space-x-1 transition">
+                  <span>View Post ↗</span>
+                </a>
+              `}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function setCategory(cat) {
+      currentCategory = cat;
+      document.querySelectorAll('.cat-pill').forEach(btn => {
+        if (btn.innerText.includes(cat) || (cat === 'All' && btn.innerText.includes('All'))) {
+          btn.className = 'cat-pill active px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-indigo-600 text-white transition';
+        } else {
+          btn.className = 'cat-pill px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-900 text-slate-400 border border-slate-800 hover:border-slate-700 transition';
+        }
+      });
+      loadLeads();
+    }
+
+    function handleSearch() {
+      searchQuery = document.getElementById('searchInput').value;
+      loadLeads();
+    }
+
+    async function toggleProMode() {
+      try {
+        const res = await fetch('/api/toggle-subscriber-mode', { method: 'POST' });
+        const data = await res.json();
+        updateProModeUI(data.isSubscriberMode);
+        loadLeads();
+      } catch (e) {
+        console.error('Toggle error:', e);
+      }
+    }
+
+    function updateProModeUI(isPro) {
+      const btnText = document.getElementById('proModeText');
+      const dot = document.getElementById('proModeDot');
+      const banner = document.getElementById('paywallBanner');
+
+      if (isPro) {
+        btnText.innerText = 'View: Pro Subscriber ($49/mo)';
+        dot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-sm shadow-emerald-400';
+        banner.classList.add('hidden');
+      } else {
+        btnText.innerText = 'View: Free Visitor Mode';
+        dot.className = 'w-2.5 h-2.5 rounded-full bg-amber-400';
+        banner.classList.remove('hidden');
+      }
+    }
+
+    function openPitchModal(leadId) {
+      const lead = leadsData.find(l => l.id === leadId);
+      if (!lead) return;
+      document.getElementById('pitchModalTitle').innerText = `Pitch for ${lead.companyName}`;
+      document.getElementById('pitchTextarea').value = lead.emailPitch;
+      document.getElementById('copyConfirmMsg').classList.add('hidden');
+      document.getElementById('pitchModal').classList.remove('hidden');
+      document.getElementById('pitchModal').classList.add('flex');
+    }
+
+    function closePitchModal() {
+      document.getElementById('pitchModal').classList.add('hidden');
+      document.getElementById('pitchModal').classList.remove('flex');
+    }
+
+    function copyPitchToClipboard() {
+      const text = document.getElementById('pitchTextarea').value;
+      navigator.clipboard.writeText(text);
+      const msg = document.getElementById('copyConfirmMsg');
+      msg.classList.remove('hidden');
+      setTimeout(() => msg.classList.add('hidden'), 3000);
+    }
+
+    function openEmailModal() {
+      document.getElementById('digestStatus').classList.add('hidden');
+      document.getElementById('emailModal').classList.remove('hidden');
+      document.getElementById('emailModal').classList.add('flex');
+    }
+
+    function closeEmailModal() {
+      document.getElementById('emailModal').classList.add('hidden');
+      document.getElementById('emailModal').classList.remove('flex');
+    }
+
+    async function sendTestDigest() {
+      const email = document.getElementById('digestEmailInput').value;
+      const statusDiv = document.getElementById('digestStatus');
+      const btn = document.getElementById('sendDigestBtn');
+
+      if (!email) {
+        statusDiv.className = 'text-xs mb-3 text-rose-400 font-semibold';
+        statusDiv.innerText = 'Please enter an email address.';
+        statusDiv.classList.remove('hidden');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerText = 'Sending...';
+      statusDiv.className = 'text-xs mb-3 text-indigo-400';
+      statusDiv.innerText = '📬 Digital Postman is sending your digest...';
+      statusDiv.classList.remove('hidden');
+
+      try {
+        const res = await fetch('/api/send-digest', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+        const data = await res.json();
+        if (data.success) {
+          statusDiv.className = 'text-xs mb-3 text-emerald-400 font-semibold';
+          statusDiv.innerText = '✅ Test digest delivered! Check your inbox.';
+        } else {
+          statusDiv.className = 'text-xs mb-3 text-amber-400 font-semibold';
+          statusDiv.innerText = 'Notice: ' + (data.error || data.message);
+        }
+      } catch (err) {
+        statusDiv.className = 'text-xs mb-3 text-rose-400 font-semibold';
+        statusDiv.innerText = 'Error sending email: ' + err.message;
+      } finally {
+        btn.disabled = false;
+        btn.innerText = 'Send Live Test';
+      }
+    }
+
+    function exportToCSV() {
+      if (!leadsData.length) return;
+      const headers = ['Company', 'Job Title', 'Category', 'Location', 'Salary', 'Agency Value', 'URL'];
+      const rows = leadsData.map(l => [
+        `"${(l.companyName || '').replace(/"/g, '""')}"`,
+        `"${(l.title || '').replace(/"/g, '""')}"`,
+        `"${(l.opportunity.category || '').replace(/"/g, '""')}"`,
+        `"${(l.location || '').replace(/"/g, '""')}"`,
+        `"${(l.salary || '').replace(/"/g, '""')}"`,
+        `"${(l.opportunity.agencyValue || '').replace(/"/g, '""')}"`,
+        `"${(l.companyUrl || '').replace(/"/g, '""')}"`
+      ]);
+
+      const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement('a');
+      link.setAttribute('href', encodedUri);
+      link.setAttribute('download', `LeadRadar_Agency_Leads_${new Date().toISOString().slice(0,10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    // Initialize on page load
+    loadStats();
+    loadLeads();
+  </script>
+</body>
+</html>
