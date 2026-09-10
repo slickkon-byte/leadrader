@@ -655,14 +655,12 @@
       }
     }
 
-    // CHECKOUT MODAL LOGIC
+    // STRIPE OFFICIAL SUBSCRIPTION LINK
+    const STRIPE_CHECKOUT_URL = 'https://buy.stripe.com/test_7sY00k08haKZ7XM3HX5kk00';
+
+    // CHECKOUT LOGIC -> REDIRECT DIRECTLY TO OFFICIAL STRIPE CHECKOUT
     function openCheckoutModal(planName, price) {
-      document.getElementById('checkoutPlanTitle').innerText = `${planName} Checkout`;
-      document.getElementById('checkoutPlanSubtitle').innerText = `$${price}.00 / month • Cancel anytime`;
-      document.getElementById('checkoutFormView').classList.remove('hidden');
-      document.getElementById('checkoutSuccessView').classList.add('hidden');
-      document.getElementById('checkoutModal').classList.remove('hidden');
-      document.getElementById('checkoutModal').classList.add('flex');
+      window.location.href = STRIPE_CHECKOUT_URL;
     }
 
     function closeCheckoutModal() {
@@ -763,6 +761,17 @@
     }
 
     // Initialize on page load
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('subscribed') === 'true' || urlParams.get('success') === 'true' || urlParams.get('pro') === 'true') {
+      isProActive = true;
+      updateProModeUI(true);
+      setTimeout(() => {
+        if (typeof confetti === 'function') {
+          confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+        }
+      }, 500);
+    }
+
     loadStats();
     loadLeads();
   </script>
