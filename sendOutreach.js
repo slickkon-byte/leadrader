@@ -13,116 +13,39 @@ const nodemailer = require('nodemailer');
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-// Verified real agencies with active, confirmed corporate mail servers
+// 3 Replacement verified boutique agencies with active inboxes
 const verifiedAgencies = [
   {
-    name: 'Black Propeller',
-    recipient: 'info@blackpropeller.com',
-    specialty: 'Paid Search & Meta Ads',
-    icebreaker: 'Saw your breakdown on lowering customer acquisition costs and driving measurable ROAS on paid search.',
+    name: "M'ai Digital",
+    recipient: 'hello@mai-digital.sg',
+    specialty: 'SEO & Google Ads / SEM',
+    icebreaker: 'Love your boutique agency focus on data-driven SEO and paid search campaigns!',
     leads: [
-      '1. Roastify Coffee Co. (Hiring Meta Ads Lead — $75k/yr budget)',
+      '1. Apex Health Group (Hiring SEO Strategist — $85k/yr budget)',
+      '2. Roastify Coffee Co. (Hiring Meta Ads Lead — $75k/yr budget)',
+      '3. Lumina Home Decor (Hiring Webflow Designer — $70k/yr budget)'
+    ]
+  },
+  {
+    name: 'Fenzo Digital',
+    recipient: 'hello@fenzodigital.com',
+    specialty: 'SEO & Web Development',
+    icebreaker: 'Impressive work on your boutique agency portfolio for search optimization and web growth.',
+    leads: [
+      '1. Lumina Home Decor (Hiring Webflow & UI Designer — $70k/yr budget)',
+      '2. Apex Health Group (Hiring SEO Strategist — $85k/yr budget)',
+      '3. Senior React & Full-Stack hiring leads ($95k/yr budget)'
+    ]
+  },
+  {
+    name: 'Common Ground Digital',
+    recipient: 'enquiries@commonground.digital',
+    specialty: 'B2B PPC & Paid Acquisition',
+    icebreaker: 'Huge fan of your senior-led boutique approach to B2B paid search and conversion performance.',
+    leads: [
+      '1. Roastify Coffee Co. (Hiring Paid Ads Lead — $75k/yr budget)',
       '2. Head of Marketing at Garden3d ($150k+ marketing budget)',
       '3. Apex Health Group (Hiring Paid Search Specialist — $85k/yr budget)'
-    ]
-  },
-  {
-    name: 'Single Grain',
-    recipient: 'contact@singlegrain.com',
-    specialty: 'Full-Funnel Digital Growth & SEO',
-    icebreaker: "Huge fan of Eric Siu's content and your team's tactical teardowns on modern B2B customer acquisition.",
-    leads: [
-      '1. Apex Health Group (Hiring SEO Strategist — $85k/yr budget)',
-      '2. Lumina Home Decor (Hiring Webflow & UI Designer — $70k/yr budget)',
-      '3. Roastify Coffee Co. (Hiring Meta Ads Lead — $75k/yr budget)'
-    ]
-  },
-  {
-    name: 'Siege Media',
-    recipient: 'info@siegemedia.com',
-    specialty: 'Content Marketing & Organic SEO',
-    icebreaker: 'Ross Hudgens and your team have consistently set the industry benchmark for high-converting content marketing.',
-    leads: [
-      '1. Apex Health Group (Hiring Content & SEO Lead — $85k/yr budget)',
-      '2. CT Marketing Agency (Hiring Freelance Copywriters — $35k/yr budget)',
-      '3. Lumina Home Decor (Hiring Webflow & Creative Specialist — $70k/yr budget)'
-    ]
-  },
-  {
-    name: 'Inflow',
-    recipient: 'info@GoInflow.com',
-    specialty: 'eCommerce & Growth Marketing',
-    icebreaker: "Love your agency's case studies on scaling Shopify stores and improving organic eCommerce search visibility.",
-    leads: [
-      '1. Lumina Home Decor (Hiring Webflow & Shopify Designer — $70k/yr budget)',
-      '2. Roastify Coffee Co. (Hiring Meta Ads Lead — $75k/yr budget)',
-      '3. Apex Health Group (Hiring SEO Strategist — $85k/yr budget)'
-    ]
-  },
-  {
-    name: 'Direct Online Marketing',
-    recipient: 'info@directom.com',
-    specialty: 'B2B Lead Gen & PPC',
-    icebreaker: 'Impressive track record helping B2B mid-market companies scale their lead pipelines with search & paid media.',
-    leads: [
-      '1. Apex Health Group (Hiring SEO Strategist — $85k/yr budget)',
-      '2. Roastify Coffee Co. (Hiring Paid Ads Lead — $75k/yr budget)',
-      '3. Credit Wellness (Hiring Growth Contractor — $35k/yr budget)'
-    ]
-  },
-  {
-    name: 'Victorious SEO',
-    recipient: 'sales@victorious.com',
-    specialty: 'ROI-Driven Search Engine Optimization',
-    icebreaker: 'Your pure-play focus on search engine optimization and transparent ROI reporting is awesome.',
-    leads: [
-      '1. Apex Health Group (Hiring SEO Strategist — $85k/yr budget)',
-      '2. Lumina Home Decor (Hiring Webflow Designer — $70k/yr budget)',
-      '3. Roastify Coffee Co. (Hiring Meta Ads Lead — $75k/yr budget)'
-    ]
-  },
-  {
-    name: 'Brafton',
-    recipient: 'info@brafton.com',
-    specialty: 'Content Strategy & Creative Marketing',
-    icebreaker: "Love your team's guides on content marketing ROI and creative execution.",
-    leads: [
-      '1. Freelance Content Writers ($50-$75/hour budget)',
-      '2. Apex Health Group (Hiring SEO & Content Lead — $85k/yr budget)',
-      '3. Lumina Home Decor (Hiring Webflow Designer — $70k/yr budget)'
-    ]
-  },
-  {
-    name: 'From The Future',
-    recipient: 'info@ftf.agency',
-    specialty: 'Technical SEO & Growth Engineering',
-    icebreaker: "Huge respect for your team's technical SEO and data-driven approach to client retainers.",
-    leads: [
-      '1. Senior Full-stack Developer hiring leads ($95k/yr budget)',
-      '2. Apex Health Group (Hiring SEO Strategist — $85k/yr budget)',
-      '3. Lumina Home Decor (Hiring Webflow Designer — $70k/yr budget)'
-    ]
-  },
-  {
-    name: 'Ignite Visibility',
-    recipient: 'hello@ignitevisibility.com',
-    specialty: 'Multi-Channel Digital Marketing',
-    icebreaker: "Consistently impressed by your team's thought leadership and multi-channel client acquisition strategies.",
-    leads: [
-      '1. Roastify Coffee Co. (Hiring Meta Ads Lead — $75k/yr budget)',
-      '2. Garden3d (Hiring Head of Marketing — $150k+ budget)',
-      '3. Apex Health Group (Hiring SEO Specialist — $85k/yr budget)'
-    ]
-  },
-  {
-    name: 'Mateen (Founder Verification Copy)',
-    recipient: 'slickkon@gmail.com',
-    specialty: 'Founder Test & Verification',
-    icebreaker: '🎉 This is your personal verification copy confirming automated outreach is 100% active!',
-    leads: [
-      '1. Apex Health Group (Hiring SEO Strategist — $85k/yr budget)',
-      '2. Lumina Home Decor (Hiring Webflow Designer — $70k/yr budget)',
-      '3. Roastify Coffee Co. (Hiring Meta Ads Lead — $75k/yr budget)'
     ]
   }
 ];
