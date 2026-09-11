@@ -1,6 +1,6 @@
 // ==============================================================================
 // FILE: jobScout.js
-// PURPOSE: The Automated Digital Scout for LeadRadar
+// PURPOSE: The Automated Digital Scout for ClientScout
 // 
 // ANALOGY: Think of this file like a scout who wakes up early every morning,
 // reads all the "Help Wanted" ads in the newspapers, circles the companies with
@@ -86,7 +86,7 @@ Best regards,
  * main power flickers!
  */
 async function fetchFreshLeads() {
-  console.log('🔍 [LeadRadar Scout] Starting search for high-budget hiring companies...');
+  console.log('🔍 [ClientScout] Starting search for high-budget hiring companies...');
   
   let rawJobs = [];
   
@@ -106,10 +106,10 @@ async function fetchFreshLeads() {
         description: (j.description || '').replace(/<[^>]*>?/gm, '').slice(0, 200) + '...',
         postedDate: new Date(j.publication_date || Date.now()).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
       }));
-      console.log(`✅ [LeadRadar Scout] Found ${rawJobs.length} live jobs from Remotive API!`);
+      console.log(`✅ [ClientScout] Found ${rawJobs.length} live jobs from Remotive API!`);
     }
   } catch (err) {
-    console.log('⚠️ [LeadRadar Scout] Remote API slow or unavailable, loading fresh verified curated feed.');
+    console.log('⚠️ [ClientScout] Remote API slow or unavailable, loading fresh verified curated feed.');
   }
 
   // If external API didn't return enough jobs, combine with our curated high-converting agency leads

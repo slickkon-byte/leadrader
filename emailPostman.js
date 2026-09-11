@@ -1,6 +1,6 @@
 // ==============================================================================
 // FILE: emailPostman.js
-// PURPOSE: Automated Email Delivery for LeadRadar using Resend
+// PURPOSE: Automated Email Delivery for ClientScout using Resend
 //
 // ANALOGY: Think of this file like a digital mail carrier with a bicycle.
 // Whenever we want to send the weekly "Top 10 Leads" digest or a customer alert,
@@ -43,7 +43,7 @@ async function sendWeeklyDigest(toEmail, leads) {
   const emailHtml = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
       <div style="background-color: #0f172a; color: white; padding: 16px; border-radius: 6px; text-align: center;">
-        <h1 style="margin: 0; font-size: 24px; letter-spacing: -0.5px;">🎯 LeadRadar</h1>
+        <h1 style="margin: 0; font-size: 24px; letter-spacing: -0.5px;">🎯 ClientScout</h1>
         <p style="margin: 4px 0 0 0; color: #94a3b8; font-size: 14px;">Your Weekly High-Budget Client Leads</p>
       </div>
       <div style="padding: 16px 0;">
@@ -51,10 +51,10 @@ async function sendWeeklyDigest(toEmail, leads) {
         ${leadRows}
       </div>
       <div style="text-align: center; padding-top: 16px; border-top: 1px solid #e2e8f0;">
-        <a href="http://localhost:3000" style="background-color: #2563eb; color: white; padding: 10px 20px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">View All 50+ Leads in Dashboard</a>
+        <a href="https://leadrader.onrender.com" style="background-color: #2563eb; color: white; padding: 10px 20px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">View All 50+ Leads in Dashboard</a>
       </div>
       <p style="font-size: 12px; color: #94a3b8; text-align: center; margin-top: 20px;">
-        LeadRadar B2B Micro-SaaS • Automated Client Acquisition Engine
+        ClientScout B2B Micro-SaaS • Automated Client Acquisition Engine
       </p>
     </div>
   `;
@@ -63,9 +63,9 @@ async function sendWeeklyDigest(toEmail, leads) {
     // Note: Resend Free Tier lets you send directly to your registered account email
     // or onboarding@resend.dev domain.
     const result = await resend.emails.send({
-      from: 'LeadRadar <onboarding@resend.dev>',
+      from: 'ClientScout <onboarding@resend.dev>',
       to: toEmail,
-      subject: '🎯 [LeadRadar] Top High-Budget Leads This Week',
+      subject: '🎯 [ClientScout] Top High-Budget Leads This Week',
       html: emailHtml
     });
     console.log('✅ [Digital Postman] Email delivered successfully!', result);

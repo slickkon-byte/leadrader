@@ -1,6 +1,6 @@
 // ==============================================================================
 // FILE: findAgencies.js
-// PURPOSE: Automated Target Customer Lead Finder for LeadRadar
+// PURPOSE: Automated Target Customer Lead Finder for ClientScout
 //
 // ANALOGY: Think of this file like a dedicated research assistant. It searches
 // verified public agency directories to find marketing agencies, web design

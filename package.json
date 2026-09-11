@@ -1,7 +1,7 @@
 {
-  "name": "leadradar-microsaas",
+  "name": "clientscout-microsaas",
   "version": "1.0.0",
-  "description": "LeadRadar: B2B Job-Posting Lead Finder Micro-SaaS for Marketing Agencies and Freelancers",
+  "description": "ClientScout: B2B Job-Posting Lead Finder Micro-SaaS for Marketing Agencies and Freelancers",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

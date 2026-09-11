@@ -1,6 +1,6 @@
 // ==============================================================================
 // FILE: server.js
-// PURPOSE: The Main Web Engine and Brain of LeadRadar
+// PURPOSE: The Main Web Engine and Brain of ClientScout
 //
 // ANALOGY: Think of this file like the store manager of a shop. It welcomes visitors,
 // shows them the product catalog (the leads), rings up subscriptions at the cash register,
@@ -81,7 +81,7 @@ app.get('/api/leads', async (req, res) => {
           isLocked: true,
           companyName: '🔒 [Locked - Subscribe to View]',
           companyUrl: '#',
-          emailPitch: '🔒 Upgrade to LeadRadar Pro ($49/mo) to unlock 1-click tailored pitches & direct company contact info.'
+          emailPitch: '🔒 Upgrade to ClientScout Pro ($49/mo) to unlock 1-click tailored pitches & direct company contact info.'
         };
       }
     });
@@ -175,11 +175,11 @@ app.post('/api/checkout', async (req, res) => {
     // Optionally send a friendly welcome note via Resend
     const welcomeHtml = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 12px; background: #ffffff;">
-        <h2 style="color: #0f172a; margin-top: 0;">🎉 Welcome to LeadRadar Pro!</h2>
+        <h2 style="color: #0f172a; margin-top: 0;">🎉 Welcome to ClientScout Pro!</h2>
         <p style="color: #334155; font-size: 15px;">Hi ${name || 'there'},</p>
-        <p style="color: #334155; font-size: 15px;">Your subscription to <strong>LeadRadar Pro ($49/month)</strong> is officially active! You now have unlocked access to all high-budget company leads, 1-click tailored pitches, and our Monday Morning Scout digests.</p>
+        <p style="color: #334155; font-size: 15px;">Your subscription to <strong>ClientScout Pro ($49/month)</strong> is officially active! You now have unlocked access to all high-budget company leads, 1-click tailored pitches, and our Monday Morning Scout digests.</p>
         <div style="margin: 20px 0; text-align: center;">
-          <a href="https://leadrader.onrender.com" style="background: #2563eb; color: #ffffff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; display: inline-block;">Open LeadRadar Dashboard</a>
+          <a href="https://leadrader.onrender.com" style="background: #2563eb; color: #ffffff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; display: inline-block;">Open ClientScout Dashboard</a>
         </div>
         <p style="color: #64748b; font-size: 13px;">Need any help landing your first client? Just reply directly to this email!</p>
       </div>
@@ -191,9 +191,9 @@ app.post('/api/checkout', async (req, res) => {
         const { Resend } = require('resend');
         const resend = new Resend(process.env.RESEND_API_KEY);
         resend.emails.send({
-          from: 'LeadRadar <onboarding@resend.dev>',
+          from: 'ClientScout <onboarding@resend.dev>',
           to: email,
-          subject: '🎉 Welcome to LeadRadar Pro! Your Account is Ready',
+          subject: '🎉 Welcome to ClientScout Pro! Your Account is Ready',
           html: welcomeHtml
         }).catch(e => console.log('Welcome email note:', e.message));
       }
@@ -202,7 +202,7 @@ app.post('/api/checkout', async (req, res) => {
     res.json({
       success: true,
       isSubscriberMode: true,
-      message: `Payment successful! Welcome to LeadRadar Pro, ${name || 'Partner'}!`
+      message: `Payment successful! Welcome to ClientScout Pro, ${name || 'Partner'}!`
     });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
@@ -212,7 +212,7 @@ app.post('/api/checkout', async (req, res) => {
 // Start the server
 app.listen(PORT, () => {
   console.log('=================================================================');
-  console.log(`🚀 [LeadRadar] Server is running smoothly at: http://localhost:${PORT}`);
+  console.log(`🚀 [ClientScout] Server is running smoothly at: http://localhost:${PORT}`);
   console.log('💡 Visit the link above in your browser to see your live Micro-SaaS!');
   console.log('=================================================================');
 });
