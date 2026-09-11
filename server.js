@@ -179,7 +179,7 @@ app.post('/api/checkout', async (req, res) => {
         <p style="color: #334155; font-size: 15px;">Hi ${name || 'there'},</p>
         <p style="color: #334155; font-size: 15px;">Your subscription to <strong>ClientScout Pro ($49/month)</strong> is officially active! You now have unlocked access to all high-budget company leads, 1-click tailored pitches, and our Monday Morning Scout digests.</p>
         <div style="margin: 20px 0; text-align: center;">
-          <a href="https://leadrader.onrender.com" style="background: #2563eb; color: #ffffff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; display: inline-block;">Open ClientScout Dashboard</a>
+          <a href="https://clientscout-io.onrender.com" style="background: #2563eb; color: #ffffff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; display: inline-block;">Open ClientScout Dashboard</a>
         </div>
         <p style="color: #64748b; font-size: 13px;">Need any help landing your first client? Just reply directly to this email!</p>
       </div>

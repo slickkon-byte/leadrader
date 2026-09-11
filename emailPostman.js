@@ -51,7 +51,7 @@ async function sendWeeklyDigest(toEmail, leads) {
         ${leadRows}
       </div>
       <div style="text-align: center; padding-top: 16px; border-top: 1px solid #e2e8f0;">
-        <a href="https://leadrader.onrender.com" style="background-color: #2563eb; color: white; padding: 10px 20px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">View All 50+ Leads in Dashboard</a>
+        <a href="https://clientscout-io.onrender.com" style="background-color: #2563eb; color: white; padding: 10px 20px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">View All 50+ Leads in Dashboard</a>
       </div>
       <p style="font-size: 12px; color: #94a3b8; text-align: center; margin-top: 20px;">
         ClientScout B2B Micro-SaaS • Automated Client Acquisition Engine
