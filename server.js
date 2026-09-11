@@ -14,6 +14,10 @@ const path = require('path');
 const { fetchFreshLeads } = require('./jobScout');
 const { saveLeadsToCabinet } = require('./supabaseClient');
 const { sendWeeklyDigest } = require('./emailPostman');
+const { fetchTechAndExecutiveLeads } = require('./recruitScout');
+const { generateProposals } = require('./proposalEngine');
+const { auditWebsite } = require('./auditEngine');
+const { addSubscriber, sendAlertDigest } = require('./alertEngine');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -204,6 +208,70 @@ app.post('/api/checkout', async (req, res) => {
       isSubscriberMode: true,
       message: `Payment successful! Welcome to ClientScout Pro, ${name || 'Partner'}!`
     });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// ==============================================================================
+// MULTI-SAAS SUITE ROUTES (THE 4 NEW SAAS OFFERINGS)
+// ==============================================================================
+
+// 1. RecruitScout Pages & APIs (/recruit)
+app.get('/recruit', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'recruit.html'));
+});
+
+app.get('/api/recruit/leads', async (req, res) => {
+  try {
+    const leads = await fetchTechAndExecutiveLeads();
+    res.json({ success: true, count: leads.length, leads });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// 2. ProposalHero Pages & APIs (/proposals)
+app.get('/proposals', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'proposals.html'));
+});
+
+app.post('/api/proposals/generate', (req, res) => {
+  try {
+    const { jobTitle, jobDescription, freelancerName } = req.body;
+    const proposals = generateProposals(jobTitle, jobDescription, freelancerName);
+    res.json({ success: true, proposals });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// 3. SiteAudit Radar Pages & APIs (/audit)
+app.get('/audit', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'audit.html'));
+});
+
+app.post('/api/audit/scan', async (req, res) => {
+  try {
+    const { url } = req.body;
+    if (!url) return res.status(400).json({ success: false, error: 'Please enter a valid website URL.' });
+    const audit = await auditWebsite(url);
+    res.json({ success: audit.success, audit, error: audit.error });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// 4. FastAlerts Remote Pages & APIs (/alerts)
+app.get('/alerts', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'alerts.html'));
+});
+
+app.post('/api/alerts/subscribe', (req, res) => {
+  try {
+    const { email, role } = req.body;
+    const result = addSubscriber(email, role);
+    res.json(result);
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ProposalHero — 1-Click High-Converting Proposals for Freelancers</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col antialiased selection:bg-indigo-500 selection:text-white">
+
+  <!-- TOP SUITE NAVIGATION BAR -->
+  <header class="border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-6">
+        <a href="/" class="flex items-center space-x-2.5 group">
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-500 flex items-center justify-center text-white font-black text-base shadow-lg shadow-purple-500/20">
+            ✍️
+          </div>
+          <div>
+            <div class="font-black text-sm tracking-tight text-white flex items-center gap-1.5">
+              <span>ProposalHero</span>
+              <span class="text-[10px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20">AI Proposal Engine</span>
+            </div>
+            <div class="text-[10px] text-slate-400 font-medium">Part of ClientScout Suite</div>
+          </div>
+        </a>
+
+        <!-- SUITE LINKS -->
+        <nav class="hidden md:flex items-center space-x-1 text-xs font-semibold">
+          <a href="/" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition">Agency Leads</a>
+          <a href="/recruit" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition">Recruiter Feed</a>
+          <a href="/proposals" class="px-3 py-1.5 rounded-lg bg-slate-900 text-purple-400 border border-slate-800">Proposal AI</a>
+          <a href="/audit" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition">Site Auditor</a>
+          <a href="/alerts" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition">Job Alerts</a>
+        </nav>
+      </div>
+
+      <div class="flex items-center space-x-3">
+        <button onclick="window.location.href='https://buy.stripe.com/7sY5kFds93Yy8zy6Gj2kw00'" class="px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-extrabold text-xs rounded-xl shadow-md shadow-purple-500/20 transition transform hover:scale-[1.02]">
+          Get Unlimited Pro ($19/mo)
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="relative pt-12 pb-8 px-6 max-w-5xl mx-auto w-full text-center">
+    <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-xs font-bold mb-4">
+      <span class="w-2 h-2 rounded-full bg-purple-400 animate-pulse"></span>
+      <span>1-Click Upwork & Freelance Proposal Generator</span>
+    </div>
+    <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
+      Stop Getting Ignored. Send <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-300">Winning Proposals</span> in 3 Seconds.
+    </h1>
+    <p class="text-slate-400 text-sm sm:text-base max-w-2xl mx-auto mt-4 leading-relaxed">
+      Clients can spot generic templates in 2 seconds. Paste what the client wants below, and get 3 custom, high-converting pitches tailored directly to their pain points.
+    </p>
+  </section>
+
+  <!-- GENERATOR CONTAINER -->
+  <main class="max-w-4xl mx-auto px-6 pb-20 w-full flex-1">
+    <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xl">
+      <div class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">1. Job Title or Position</label>
+          <input 
+            type="text" 
+            id="jobTitleInput" 
+            placeholder="e.g. Shopify Web Designer or Senior SEO Specialist"
+            class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 transition"
+          >
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">2. Paste Job Description or Client Notes</label>
+          <textarea 
+            id="jobDescInput" 
+            rows="4" 
+            placeholder="Paste the Upwork/Fiverr job description here so our engine understands their exact challenge..."
+            class="w-full bg-slate-950 border border-slate-800 rounded-xl p-4 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 transition leading-relaxed"
+          ></textarea>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">3. Your Name</label>
+            <input 
+              type="text" 
+              id="freelancerNameInput" 
+              placeholder="e.g. Alex" 
+              value="Alex"
+              class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 transition"
+            >
+          </div>
+          <div class="flex items-end">
+            <button 
+              onclick="generate()" 
+              class="w-full py-3 px-6 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-extrabold text-sm rounded-xl shadow-lg shadow-purple-600/30 transition transform hover:scale-[1.01] flex items-center justify-center space-x-2"
+            >
+              <span>⚡ Generate 3 Winning Proposals</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROPOSALS OUTPUT GRID -->
+    <div id="proposalsOutput" class="mt-10 space-y-6 hidden">
+      <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+        <h3 class="text-sm font-bold uppercase tracking-wider text-purple-400">✨ 3 Tailored Pitch Angles Generated:</h3>
+        <span class="text-xs text-slate-400">Ready to copy and send</span>
+      </div>
+
+      <div id="cardsList" class="space-y-6">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </main>
+
+  <script>
+    async function generate() {
+      const title = document.getElementById('jobTitleInput').value.trim() || 'Digital Specialist';
+      const desc = document.getElementById('jobDescInput').value.trim() || 'Need expert assistance to complete our project quickly.';
+      const name = document.getElementById('freelancerNameInput').value.trim() || 'Alex';
+
+      const res = await fetch('/api/proposals/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ jobTitle: title, jobDescription: desc, freelancerName: name })
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        renderProposals(data.proposals);
+      }
+    }
+
+    function renderProposals(proposals) {
+      const container = document.getElementById('proposalsOutput');
+      const list = document.getElementById('cardsList');
+      container.classList.remove('hidden');
+
+      list.innerHTML = proposals.map((p, idx) => `
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-md relative group hover:border-purple-500/50 transition">
+          <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-800/80">
+            <div class="flex items-center space-x-2.5">
+              <span class="w-6 h-6 rounded-lg bg-purple-500/20 text-purple-400 font-extrabold text-xs flex items-center justify-center">${idx + 1}</span>
+              <h4 class="text-sm font-bold text-white">${p.style}</h4>
+            </div>
+            <span class="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20">
+              ${p.badge}
+            </span>
+          </div>
+
+          <pre class="bg-slate-950 p-4 rounded-xl text-xs font-sans text-slate-200 leading-relaxed whitespace-pre-wrap border border-slate-800/80">${p.content}</pre>
+
+          <div class="mt-4 flex items-center justify-between">
+            <span id="copyMsg_${idx}" class="text-xs font-bold text-emerald-400 hidden">✓ Copied to clipboard!</span>
+            <button onclick="copyToClipboard('${idx}', \`${p.content.replace(/`/g, '\\`')}\`)" class="ml-auto px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs rounded-xl shadow-sm transition flex items-center space-x-1.5">
+              <span>📋 Copy Proposal</span>
+            </button>
+          </div>
+        </div>
+      `).join('');
+
+      container.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function copyToClipboard(idx, text) {
+      navigator.clipboard.writeText(text);
+      const msg = document.getElementById(`copyMsg_${idx}`);
+      if (msg) {
+        msg.classList.remove('hidden');
+        setTimeout(() => msg.classList.add('hidden'), 2500);
+      }
+    }
+  </script>
+</body>
+</html>
